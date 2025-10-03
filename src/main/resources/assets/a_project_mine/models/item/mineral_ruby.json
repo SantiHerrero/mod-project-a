@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "a_project_mine:item/mineral_ruby"
+  }
+}
+
