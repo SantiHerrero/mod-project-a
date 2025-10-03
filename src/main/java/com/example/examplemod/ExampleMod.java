@@ -35,6 +35,7 @@ public class ExampleMod
 {
     // Define mod id in a common place for everything to reference
     public static final String MODID = "a_project_mine";
+    public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
@@ -137,4 +138,34 @@ public class ExampleMod
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
         }
     }
+    // Definimos el tier de rubí directo acá
+    public static final Tier RUBY_TIER = new ForgeTier(
+            3, // nivel minado
+            3000, // durabilidad
+            9.0f, // velocidad de minado
+            30.0f, // bonus daño
+            33, // encantabilidad
+            null, // tag de bloques (puede ser null si no lo usás)
+            () -> Ingredient.of(RUBY.get()) // material reparación
+    );
+
+    // Espada rubí
+    public static final RegistryObject<Item> RUBY_SWORD = ITEMS.register("ruby_sword",
+            () -> new SwordItem(RUBY_TIER, 3, -2.6f, new Item.Properties()));
+
+    // Creative tab
+    public static final RegistryObject<CreativeModeTab> TAB = TABS.register("ruby_tab",
+            () -> CreativeModeTab.builder()
+                    .withTabsBefore(CreativeModeTabs.COMBAT)
+                    .icon(() -> RUBY.get().getDefaultInstance())
+                    .displayItems((params, output) -> {
+                        output.accept(RUBY.get());
+                        output.accept(RUBY_SWORD.get());
+                    }).build());
+    public static final RegistryObject<CreativeModeTab> TAB_RUBY_SWORD = CREATIVE_MODE_TABS.register("espada_de_ruby", () -> CreativeModeTab.builder()
+            .withTabsBefore(CreativeModeTabs.COMBAT)
+            .icon(() -> RUBY_SWORD.get().getDefaultInstance())
+            .displayItems((parameters, output) -> {
+                output.accept(RUBY_SWORD.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
+            }).build());
 }
