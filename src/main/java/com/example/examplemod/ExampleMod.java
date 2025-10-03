@@ -43,7 +43,7 @@ public class ExampleMod
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
-
+    //santi es gay
     public static final RegistryObject<Item> EXAMPLE_BLOCK_2 = ITEMS.register ("mineral_ruby",
             () -> new Item(new Item.Properties()
                     .stacksTo(64)));// cantidad máxima en un stack
