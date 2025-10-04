@@ -45,17 +45,11 @@ public class ExampleMod
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
     //santi es gay
-    public static final RegistryObject<Item> EXAMPLE_BLOCK_2 = ITEMS.register ("mineral_ruby",
+    public static final RegistryObject<Item> MINERAL_RUBY = ITEMS.register ("mineral_ruby",
             () -> new Item(new Item.Properties()
                     .stacksTo(64)));// cantidad máxima en un stack
     public static final RegistryObject<Item> RUBY = ITEMS.register("ruby",
             () -> new Item(new Item.Properties().stacksTo(64)));
-    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB_2 = CREATIVE_MODE_TABS.register("example_tab_2", () -> CreativeModeTab.builder()
-            .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> EXAMPLE_BLOCK_2.get().getDefaultInstance())
-            .displayItems((parameters, output) -> {
-                output.accept(EXAMPLE_BLOCK_2.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
-            }).build());
     // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
     public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
     // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
@@ -64,13 +58,39 @@ public class ExampleMod
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
     public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item", () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEat().nutrition(1).saturationMod(2f).build())));
+    public static final Tier RUBY_TIER = new ForgeTier(
+            3, // nivel minado
+            3000, // durabilidad
+            9.0f, // velocidad de minado
+            30.0f, // bonus daño
+            33, // encantabilidad
+            null, // tag de bloques (puede ser null si no lo usás)
+            () -> Ingredient.of(RUBY.get()) // material reparación
+    );
+
+    // Espada rubí
+    public static final RegistryObject<Item> RUBY_SWORD = ITEMS.register("ruby_sword",
+            () -> new SwordItem(RUBY_TIER, 3, -2.6f, new Item.Properties()));
+
+    // Creative tab
+    public static final RegistryObject<CreativeModeTab> TAB = TABS.register("ruby_tab",
+            () -> CreativeModeTab.builder()
+                    .withTabsBefore(CreativeModeTabs.COMBAT)
+                    .icon(() -> RUBY.get().getDefaultInstance())
+                    .displayItems((params, output) -> {
+                        output.accept(RUBY.get());
+                        output.accept(RUBY_SWORD.get());
+                    }).build());
 
     // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
+            .icon(() -> MINERAL_RUBY.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
-                output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
+                output.accept(EXAMPLE_ITEM.get());
+                output.accept(EXAMPLE_ITEM.get());
+                output.accept(MINERAL_RUBY.get());
+                output.accept(RUBY_SWORD.get());// Add the example item to the tab. For your own tabs, this method is preferred over the event
             }).build());
 
     public ExampleMod(FMLJavaModLoadingContext context)
@@ -138,33 +158,5 @@ public class ExampleMod
         }
     }
     // Definimos el tier de rubí directo acá
-    public static final Tier RUBY_TIER = new ForgeTier(
-            3, // nivel minado
-            3000, // durabilidad
-            9.0f, // velocidad de minado
-            30.0f, // bonus daño
-            33, // encantabilidad
-            null, // tag de bloques (puede ser null si no lo usás)
-            () -> Ingredient.of(RUBY.get()) // material reparación
-    );
 
-    // Espada rubí
-    public static final RegistryObject<Item> RUBY_SWORD = ITEMS.register("ruby_sword",
-            () -> new SwordItem(RUBY_TIER, 3, -2.6f, new Item.Properties()));
-
-    // Creative tab
-    public static final RegistryObject<CreativeModeTab> TAB = TABS.register("ruby_tab",
-            () -> CreativeModeTab.builder()
-                    .withTabsBefore(CreativeModeTabs.COMBAT)
-                    .icon(() -> RUBY.get().getDefaultInstance())
-                    .displayItems((params, output) -> {
-                        output.accept(RUBY.get());
-                        output.accept(RUBY_SWORD.get());
-                    }).build());
-    public static final RegistryObject<CreativeModeTab> TAB_RUBY_SWORD = CREATIVE_MODE_TABS.register("espada_de_ruby", () -> CreativeModeTab.builder()
-            .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> RUBY_SWORD.get().getDefaultInstance())
-            .displayItems((parameters, output) -> {
-                output.accept(RUBY_SWORD.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
-            }).build());
 }
