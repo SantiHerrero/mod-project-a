@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 
 import static com.example.examplemod.Config.items;
 
-@Mod(AProjectMine.MODID)
+//@Mod(AProjectMine.MODID)
 public class AProjectMine {
 
     public static final String MODID = "a_project_mine";

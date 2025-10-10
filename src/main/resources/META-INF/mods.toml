@@ -3,22 +3,22 @@ loaderVersion="[47,)"
 license="All Rights Reserved"
 
 [[mods]]
-modId="a_project_mine"
+modId="boomboxmod"
 version="1.0.0"
-displayName="Ruby Mod"
+displayName="Boom box"
 authors="Seven"
 description='''
-Un mod que agrega rubíes, espadas y materiales mágicos.
+Plays music on boombox
 '''
 
-[[dependencies.a_project_mine]]
+[[dependencies.boomboxmod]]
 modId="forge"
 mandatory=true
 versionRange="[47,)"
 ordering="NONE"
 side="BOTH"
 
-[[dependencies.a_project_mine]]
+[[dependencies.boomboxmod]]
 modId="minecraft"
 mandatory=true
 versionRange="[1.20.1,1.21)"
